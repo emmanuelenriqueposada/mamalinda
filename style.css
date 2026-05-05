@@ -1,0 +1,555 @@
+/* =============================================
+   FLORES MORADAS - style.css
+   Plantilla romántica cósmica con tema morado
+   ============================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --purple-dark:    #0d0620;
+  --purple-deep:    #1a0a35;
+  --purple-mid:     #2d1b4e;
+  --purple-accent:  #8e44ad;
+  --purple-light:   #9b59b6;
+  --purple-glow:    #c39bd3;
+  --purple-pale:    #e8d5f5;
+  --pink-accent:    #e91e8c;
+  --pink-light:     #f5a7e0;
+  --star-color:     #ffffff;
+  --gold-accent:    #f9e4b7;
+  --font-script:    'Dancing Script', cursive;
+  --font-serif:     'Cormorant Garamond', Georgia, serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--purple-dark);
+}
+
+body {
+  font-family: var(--font-serif);
+  color: var(--purple-pale);
+  position: relative;
+}
+
+/* ==============================
+   CANVAS DE ESTRELLAS
+   ============================== */
+#starCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ==============================
+   PÉTALOS FLOTANTES
+   ============================== */
+#petalsContainer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  top: -60px;
+  font-size: 1.4rem;
+  animation: petalFall linear infinite;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px #9b59b680);
+}
+
+@keyframes petalFall {
+  0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.8; }
+  100% { transform: translateY(110vh) rotate(720deg) translateX(60px); opacity: 0; }
+}
+
+/* ==============================
+   FLORES DE ESQUINA
+   ============================== */
+.corner-flower {
+  position: fixed;
+  z-index: 2;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 16px #9b59b6aa);
+}
+
+.corner-tl { top: -20px; left: -20px; }
+.corner-tr { top: -20px; right: -20px; transform: scaleX(-1); }
+.corner-bl { bottom: -20px; left: -20px; transform: scaleY(-1); }
+.corner-br { bottom: -20px; right: -20px; transform: scale(-1); }
+
+.flower-group {
+  animation: flowerSpin 18s linear infinite;
+  transform-origin: 60px 60px;
+}
+
+@keyframes flowerSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ==============================
+   PANTALLAS
+   ============================== */
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.96);
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: scale(1);
+}
+
+.screen.exit {
+  opacity: 0;
+  transform: scale(1.04);
+}
+
+/* ==============================
+   PANTALLA INTRO - SOBRE
+   ============================== */
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  padding: 20px;
+}
+
+.intro-subtitle {
+  font-family: var(--font-script);
+  font-size: clamp(1.1rem, 4vw, 1.7rem);
+  color: var(--purple-pale);
+  text-shadow: 0 0 20px #9b59b6, 0 0 40px #7d3c9880;
+  letter-spacing: 0.04em;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 15px #9b59b6, 0 0 30px #8e44ad80; }
+  50%       { text-shadow: 0 0 30px #c39bd3, 0 0 60px #9b59b6cc; }
+}
+
+.envelope-wrapper {
+  position: relative;
+  width: clamp(220px, 60vw, 320px);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 0 30px #9b59b6cc) drop-shadow(0 0 60px #7d3c9880);
+}
+
+.envelope-wrapper:hover {
+  transform: scale(1.06) translateY(-6px);
+}
+
+#envelopeSVG {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Animación de solapa */
+#envelopeFlap {
+  transform-origin: 150px 70px;
+  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.envelope-open #envelopeFlap {
+  transform: rotateX(180deg);
+}
+
+/* Corazón pulsante en el sobre */
+.envelope-heart {
+  animation: heartBeat 1.4s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  14%       { transform: scale(1.2); }
+  28%       { transform: scale(1); }
+  42%       { transform: scale(1.15); }
+  70%       { transform: scale(1); }
+}
+
+/* Carta que asoma del sobre */
+.letter-peek {
+  position: absolute;
+  bottom: 45%;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  width: 60%;
+  height: 50px;
+  background: linear-gradient(135deg, #f5e6ff, #f9d6f0);
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: -1;
+  box-shadow: 0 -4px 20px #9b59b660;
+  border: 1px solid #c39bd360;
+}
+
+.envelope-open .letter-peek {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-55px);
+}
+
+.letter-peek-inner {
+  font-size: 1.6rem;
+  animation: heartBeat 1.4s ease-in-out infinite;
+}
+
+.intro-tap {
+  font-family: var(--font-script);
+  font-size: clamp(0.95rem, 3vw, 1.2rem);
+  color: var(--pink-light);
+  animation: blinkFade 2s ease-in-out infinite;
+  letter-spacing: 0.05em;
+}
+
+@keyframes blinkFade {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* Flores flotantes decorativas intro */
+.floating-flowers-intro {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.fi {
+  position: absolute;
+  font-size: 1.6rem;
+  animation: floatAround linear infinite;
+  filter: drop-shadow(0 0 8px #9b59b6aa);
+}
+
+.fi1  { left: 8%;  top: 20%; animation-duration: 7s;  animation-delay: 0s;   }
+.fi2  { left: 88%; top: 15%; animation-duration: 9s;  animation-delay: 1s;   }
+.fi3  { left: 5%;  top: 70%; animation-duration: 8s;  animation-delay: 2s;   }
+.fi4  { left: 92%; top: 65%; animation-duration: 6s;  animation-delay: 0.5s; }
+.fi5  { left: 15%; top: 85%; animation-duration: 10s; animation-delay: 3s;   }
+.fi6  { left: 80%; top: 80%; animation-duration: 7s;  animation-delay: 1.5s; }
+
+@keyframes floatAround {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  25%  { transform: translateY(-18px) rotate(90deg) scale(1.1); }
+  50%  { transform: translateY(-8px) rotate(180deg) scale(0.9); }
+  75%  { transform: translateY(-22px) rotate(270deg) scale(1.05); }
+  100% { transform: translateY(0) rotate(360deg) scale(1); }
+}
+
+/* ==============================
+   PANTALLA CARTA
+   ============================== */
+.letter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 540px;
+  padding: 20px;
+  animation: letterReveal 1s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes letterReveal {
+  from { transform: translateY(40px) scale(0.92); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.letter-paper {
+  position: relative;
+  background: linear-gradient(145deg, #fef9ff, #f5e6ff, #fce4f4);
+  border-radius: 16px;
+  padding: clamp(28px, 6vw, 50px) clamp(22px, 5vw, 44px);
+  box-shadow:
+    0 0 0 1px #c39bd350,
+    0 0 30px #9b59b640,
+    0 0 80px #7d3c9830,
+    0 8px 40px rgba(0,0,0,0.5);
+  width: 100%;
+  border: 1px solid #c39bd370;
+  overflow: hidden;
+}
+
+/* Textura suave en la carta */
+.letter-paper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 27px, #c39bd312 28px);
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+/* Flores en esquinas de la carta */
+.letter-flower-tl,
+.letter-flower-tr,
+.letter-flower-bl,
+.letter-flower-br {
+  position: absolute;
+  font-size: 1.6rem;
+  pointer-events: none;
+  animation: floatAround 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px #9b59b6aa);
+}
+
+.letter-flower-tl { top: 8px;  left: 10px;  animation-delay: 0s;   }
+.letter-flower-tr { top: 8px;  right: 10px; animation-delay: 1.5s; }
+.letter-flower-bl { bottom: 8px; left: 10px;  animation-delay: 3s; }
+.letter-flower-br { bottom: 8px; right: 10px; animation-delay: 4.5s;}
+
+.letter-header {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.letter-title {
+  font-family: var(--font-script);
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  color: #6c2880;
+  font-weight: 700;
+  line-height: 1.3;
+  text-shadow: 0 2px 8px #c39bd350;
+  margin-bottom: 12px;
+}
+
+.letter-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1rem;
+}
+
+.divider-line {
+  display: inline-block;
+  width: clamp(30px, 8vw, 60px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c39bd3, transparent);
+}
+
+.letter-body {
+  position: relative;
+  z-index: 1;
+}
+
+.letter-text {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1rem, 2.8vw, 1.15rem);
+  color: #3a1060;
+  line-height: 1.75;
+  text-align: justify;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  hyphens: auto;
+  margin-bottom: 14px;
+}
+
+.letter-text:last-child {
+  margin-bottom: 0;
+}
+
+.letter-footer {
+  margin-top: 24px;
+  text-align: right;
+  border-top: 1px solid #c39bd360;
+  padding-top: 14px;
+}
+
+.letter-from {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.05rem, 3.5vw, 1.3rem);
+  color: #7d3c98;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* Botón volver */
+.btn-back {
+  background: linear-gradient(135deg, #8e44ad, #6c2880);
+  color: #f5e6ff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-family: var(--font-script);
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 0 20px #9b59b660, 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s;
+  letter-spacing: 0.04em;
+}
+
+.btn-back:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 0 35px #9b59b6aa, 0 6px 20px rgba(0,0,0,0.4);
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.btn-back:active {
+  transform: scale(0.97);
+}
+
+/* ==============================
+   CONTROL MÚSICA
+   ============================== */
+.music-control {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 100;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c2880dd, #3d1560dd);
+  border: 2px solid #9b59b680;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3px;
+  box-shadow: 0 0 20px #9b59b650, 0 4px 15px rgba(0,0,0,0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  backdrop-filter: blur(6px);
+}
+
+.music-control:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 35px #9b59b6aa, 0 6px 20px rgba(0,0,0,0.5);
+}
+
+.music-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.music-waves {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.music-waves span {
+  display: block;
+  width: 3px;
+  background: var(--purple-glow);
+  border-radius: 2px;
+  animation: waveBar 0.8s ease-in-out infinite;
+}
+
+.music-waves span:nth-child(1) { height: 5px;  animation-delay: 0s;    }
+.music-waves span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
+.music-waves span:nth-child(3) { height: 7px;  animation-delay: 0.3s;  }
+.music-waves span:nth-child(4) { height: 4px;  animation-delay: 0.45s; }
+
+@keyframes waveBar {
+  0%, 100% { transform: scaleY(1); }
+  50%       { transform: scaleY(2); }
+}
+
+.music-control.paused .music-waves span {
+  animation-play-state: paused;
+  opacity: 0.4;
+}
+
+/* ==============================
+   ESTRELLAS FUGACES (CSS)
+   ============================== */
+.shooting-star {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
+  animation: shootingStar linear forwards;
+}
+
+.shooting-star::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, white, transparent);
+  transform: translateX(-80px);
+}
+
+@keyframes shootingStar {
+  from { transform: translate(0, 0) rotate(-30deg); opacity: 1; }
+  to   { transform: translate(300px, 180px) rotate(-30deg); opacity: 0; }
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+@media (max-width: 480px) {
+  .corner-flower { width: 80px; height: 80px; }
+  .envelope-wrapper { width: 85vw; }
+  .letter-container { padding: 12px; }
+  .fi { font-size: 1.2rem; }
+  .music-control { width: 44px; height: 44px; bottom: 16px; right: 16px; }
+  .music-icon { font-size: 1.1rem; }
+}
+
+@media (max-width: 360px) {
+  .letter-paper { padding: 22px 16px; }
+  .letter-title { font-size: 1.3rem; }
+  .letter-text  { font-size: 0.95rem; }
+}
+
+@media (min-width: 1024px) {
+  .letter-paper { max-width: 500px; margin: auto; }
+  .fi { font-size: 2rem; }
+}
+
+/* ==============================
+   SCROLLABLE LETTER en móvil
+   ============================== */
+#letterScreen {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.letter-container {
+  min-height: min-content;
+}

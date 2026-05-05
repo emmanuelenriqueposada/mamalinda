@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flores Moradas 💜</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Canvas de estrellas -->
+  <canvas id="starCanvas"></canvas>
+
+  <!-- Pétalos flotantes -->
+  <div id="petalsContainer"></div>
+
+  <!-- Flores decorativas de esquina -->
+  <div class="corner-flower corner-tl">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <g class="flower-group">
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#8e44ad" opacity="0.85" transform="rotate(45 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(90 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#7d3c98" opacity="0.85" transform="rotate(135 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#8e44ad" opacity="0.85" transform="rotate(225 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(270 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#7d3c98" opacity="0.85" transform="rotate(315 60 60)"/>
+        <circle cx="60" cy="60" r="14" fill="#f5a7e0"/>
+        <circle cx="60" cy="60" r="8" fill="#f9c8ed"/>
+      </g>
+    </svg>
+  </div>
+  <div class="corner-flower corner-tr">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <g class="flower-group">
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#8e44ad" opacity="0.85"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(45 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#7d3c98" opacity="0.85" transform="rotate(90 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(135 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#8e44ad" opacity="0.85" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(225 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#7d3c98" opacity="0.85" transform="rotate(270 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#8e44ad" opacity="0.85" transform="rotate(315 60 60)"/>
+        <circle cx="60" cy="60" r="14" fill="#e8a0d8"/>
+        <circle cx="60" cy="60" r="8" fill="#f9c8ed"/>
+      </g>
+    </svg>
+  </div>
+  <div class="corner-flower corner-bl">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <g class="flower-group">
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#7d3c98" opacity="0.85"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(60 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#8e44ad" opacity="0.85" transform="rotate(120 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#7d3c98" opacity="0.85" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(240 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#8e44ad" opacity="0.85" transform="rotate(300 60 60)"/>
+        <circle cx="60" cy="60" r="14" fill="#f5a7e0"/>
+        <circle cx="60" cy="60" r="8" fill="#f9c8ed"/>
+      </g>
+    </svg>
+  </div>
+  <div class="corner-flower corner-br">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <g class="flower-group">
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#7d3c98" opacity="0.85" transform="rotate(60 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(120 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#8e44ad" opacity="0.85" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#7d3c98" opacity="0.85" transform="rotate(240 60 60)"/>
+        <ellipse cx="60" cy="35" rx="12" ry="22" fill="#9b59b6" opacity="0.85" transform="rotate(300 60 60)"/>
+        <circle cx="60" cy="60" r="14" fill="#e8a0d8"/>
+        <circle cx="60" cy="60" r="8" fill="#f9c8ed"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Pantalla de inicio: sobre animado -->
+  <div id="introScreen" class="screen active">
+    <div class="intro-content">
+      <p class="intro-subtitle">Mamá linda, esto es para ti 💜</p>
+      <div class="envelope-wrapper" id="envelopeWrapper">
+        <!-- Sobre SVG animado -->
+        <svg id="envelopeSVG" viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cuerpo del sobre -->
+          <rect x="10" y="70" width="280" height="150" rx="10" ry="10" fill="#2d1b4e" stroke="#9b59b6" stroke-width="2"/>
+          <!-- Solapa inferior izq -->
+          <polygon points="10,70 150,160 10,220" fill="#3d2060" stroke="#9b59b6" stroke-width="1"/>
+          <!-- Solapa inferior der -->
+          <polygon points="290,70 150,160 290,220" fill="#3a1e5c" stroke="#9b59b6" stroke-width="1"/>
+          <!-- Base inferior -->
+          <polygon points="10,220 150,155 290,220" fill="#2a1845" stroke="#9b59b6" stroke-width="1"/>
+          <!-- Solapa superior (animada) -->
+          <polygon id="envelopeFlap" points="10,70 150,70 290,70 150,155" fill="#4a2580" stroke="#9b59b6" stroke-width="1.5" style="transform-origin:150px 70px;"/>
+          <!-- Corazón en el sello -->
+          <text x="150" y="52" text-anchor="middle" font-size="26" fill="#e91e8c" class="envelope-heart">💜</text>
+          <!-- Brillos -->
+          <circle cx="80" cy="130" r="2" fill="#c39bd3" opacity="0.5"/>
+          <circle cx="220" cy="150" r="1.5" fill="#c39bd3" opacity="0.4"/>
+          <circle cx="150" cy="180" r="1" fill="#c39bd3" opacity="0.3"/>
+        </svg>
+        <!-- Carta que sale del sobre -->
+        <div id="letterPeek" class="letter-peek">
+          <div class="letter-peek-inner">
+            <span>💜</span>
+          </div>
+        </div>
+      </div>
+      <p class="intro-tap">Toca el sobre para abrir</p>
+      <div class="floating-flowers-intro">
+        <div class="fi fi1">🌸</div>
+        <div class="fi fi2">💜</div>
+        <div class="fi fi3">🌺</div>
+        <div class="fi fi4">✨</div>
+        <div class="fi fi5">🌸</div>
+        <div class="fi fi6">💜</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pantalla de la carta -->
+  <div id="letterScreen" class="screen">
+    <div class="letter-container">
+      <div class="letter-paper">
+        <!-- Flores decorativas en la carta -->
+        <div class="letter-flower-tl">🌸</div>
+        <div class="letter-flower-tr">🌸</div>
+        <div class="letter-flower-bl">💜</div>
+        <div class="letter-flower-br">💜</div>
+        <div class="letter-header">
+          <div class="letter-title" id="letterTitle">💜 Feliz Día de las Madres, Mamá Linda 💜</div>
+          <div class="letter-divider">
+            <span>🌸</span><span class="divider-line"></span><span>💜</span><span class="divider-line"></span><span>🌸</span>
+          </div>
+        </div>
+        <div class="letter-body">
+          <p class="letter-text">La vida nos pone pruebas que a veces parecen demasiado grandes para cargarlas, pero usted nos ha enseñado que con fe, con amor y con Dios de la mano, ninguna tormenta puede apagar la luz que llevamos dentro. 🙏</p>
+          <p class="letter-text">Dios, desde su trono, nunca nos ha desamparado. Cada reto que ha llegado a su vida ha sido una prueba de su fortaleza, y usted la ha superado con una dignidad que llena de orgullo a quienes tenemos el privilegio de tenerla cerca.</p>
+          <p class="letter-text">Ahora sus consejos, su cariño y su apoyo han dejado una huella que el tiempo, no podrá borrar. En usted he encontrado ese amor de madre que Dios pone en el camino de quienes más lo necesitan. 💜</p>
+          <p class="letter-text">Que Dios, Jesús y la Virgencita la llenen de salud, de paz y de bendiciones hoy y siempre. Usted lo merece todo, mamá linda. 🌸✨</p>
+        </div>
+        <div class="letter-footer">
+          <p class="letter-from" id="letterFrom">Con todo el amor del mundo, de Ely, Marianita, Amanda y Yo 💜</p>
+        </div>
+      </div>
+      <!-- Botón para volver -->
+      <button class="btn-back" id="btnBack">← Volver</button>
+    </div>
+  </div>
+
+  <!-- Control de música -->
+  <div class="music-control" id="musicControl" title="Música">
+    <div class="music-icon" id="musicIcon">🎵</div>
+    <div class="music-waves" id="musicWaves">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- Audio oculto -->
+  <audio id="bgMusic" loop>
+    <source src="musica.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
