@@ -1,6 +1,5 @@
 /* =============================================
    FLORES MORADAS - style.css
-   Plantilla romántica cósmica con tema morado
    ============================================= */
 
 *, *::before, *::after {
@@ -10,39 +9,38 @@
 }
 
 :root {
-  --purple-dark:    #0d0620;
-  --purple-deep:    #1a0a35;
-  --purple-mid:     #2d1b4e;
-  --purple-accent:  #8e44ad;
-  --purple-light:   #9b59b6;
-  --purple-glow:    #c39bd3;
-  --purple-pale:    #e8d5f5;
-  --pink-accent:    #e91e8c;
-  --pink-light:     #f5a7e0;
-  --star-color:     #ffffff;
-  --gold-accent:    #f9e4b7;
-  --font-script:    'Dancing Script', cursive;
-  --font-serif:     'Cormorant Garamond', Georgia, serif;
+  --purple-dark:   #0d0620;
+  --purple-deep:   #1a0a35;
+  --purple-mid:    #2d1b4e;
+  --purple-accent: #8e44ad;
+  --purple-light:  #9b59b6;
+  --purple-glow:   #c39bd3;
+  --purple-pale:   #e8d5f5;
+  --pink-accent:   #e91e8c;
+  --pink-light:    #f5a7e0;
+  --gold-accent:   #f9e4b7;
+  --font-script:   'Dancing Script', cursive;
+  --font-serif:    'Cormorant Garamond', Georgia, serif;
 }
 
-html, body {
+html {
   width: 100%;
-  min-height: 100%;
-  /* ✅ CORREGIDO: quitamos overflow:hidden del body para que la carta haga scroll */
-  background: var(--purple-dark);
+  height: 100%;
 }
 
 body {
+  width: 100%;
+  min-height: 100%;
+  background: var(--purple-dark);
   font-family: var(--font-serif);
   color: var(--purple-pale);
-  position: relative;
-  /* ✅ overflow-x hidden solamente para evitar scroll horizontal */
   overflow-x: hidden;
+  /* NO overflow:hidden global — rompe el scroll de la carta */
 }
 
-/* ==============================
-   CANVAS DE ESTRELLAS
-   ============================== */
+/* ══════════════════════════
+   CANVAS ESTRELLAS
+══════════════════════════ */
 #starCanvas {
   position: fixed;
   inset: 0;
@@ -50,9 +48,9 @@ body {
   pointer-events: none;
 }
 
-/* ==============================
+/* ══════════════════════════
    PÉTALOS FLOTANTES
-   ============================== */
+══════════════════════════ */
 #petalsContainer {
   position: fixed;
   inset: 0;
@@ -77,9 +75,9 @@ body {
   100% { transform: translateY(110vh) rotate(720deg) translateX(60px); opacity: 0; }
 }
 
-/* ==============================
+/* ══════════════════════════
    FLORES DE ESQUINA
-   ============================== */
+══════════════════════════ */
 .corner-flower {
   position: fixed;
   z-index: 2;
@@ -89,8 +87,8 @@ body {
   filter: drop-shadow(0 0 16px #9b59b6aa);
 }
 
-.corner-tl { top: -20px; left: -20px; }
-.corner-tr { top: -20px; right: -20px; transform: scaleX(-1); }
+.corner-tl { top: -20px;  left: -20px; }
+.corner-tr { top: -20px;  right: -20px; transform: scaleX(-1); }
 .corner-bl { bottom: -20px; left: -20px; transform: scaleY(-1); }
 .corner-br { bottom: -20px; right: -20px; transform: scale(-1); }
 
@@ -104,47 +102,50 @@ body {
   to   { transform: rotate(360deg); }
 }
 
-/* ==============================
-   PANTALLAS
-   ============================== */
+/* ══════════════════════════
+   SISTEMA DE PANTALLAS
+   Usamos visibility + opacity en vez de
+   display:none para que las transiciones funcionen
+══════════════════════════ */
 .screen {
-  /* ✅ CORREGIDO: usamos min-height en vez de fixed+inset para que el contenido
-     no quede cortado en móvil */
-  position: relative;
+  position: fixed;
+  inset: 0;
   z-index: 10;
-  display: none;         /* oculto por defecto, JS lo muestra */
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100svh;    /* svh respeta la barra del navegador en móvil */
-  width: 100%;
-  padding: env(safe-area-inset-top, 16px) 0 env(safe-area-inset-bottom, 16px);
   opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-/* La pantalla intro (sobre) puede ser fixed porque no necesita scroll */
-#introScreen {
-  position: fixed;
-  inset: 0;
-  min-height: unset;
-  padding: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
 }
 
 .screen.active {
-  display: flex;
   opacity: 1;
+  visibility: visible;
   pointer-events: all;
 }
 
-.screen.exit {
-  opacity: 0;
-  pointer-events: none;
+/* La pantalla de carta necesita scroll */
+#letterScreen {
+  position: relative; /* sale del fixed para permitir scroll */
+  min-height: 100svh;
+  justify-content: flex-start;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-top: max(env(safe-area-inset-top, 0px), 16px);
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 80px);
 }
 
-/* ==============================
-   PANTALLA INTRO - SOBRE
-   ============================== */
+/* Cuando letterScreen está activo, el body no debe tener scroll fijo */
+body.letter-open {
+  overflow: hidden; /* bloquea scroll del body */
+}
+
+/* ══════════════════════════
+   PANTALLA INTRO — SOBRE
+══════════════════════════ */
 .intro-content {
   display: flex;
   flex-direction: column;
@@ -152,6 +153,8 @@ body {
   gap: 18px;
   text-align: center;
   padding: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .intro-subtitle {
@@ -168,12 +171,13 @@ body {
   50%       { text-shadow: 0 0 30px #c39bd3, 0 0 60px #9b59b6cc; }
 }
 
+/* ── SOBRE ── */
 .envelope-wrapper {
   position: relative;
   width: clamp(220px, 60vw, 320px);
   cursor: pointer;
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 0 30px #9b59b6cc) drop-shadow(0 0 60px #7d3c9880);
+  isolation: isolate; /* contexto de apilamiento propio */
 }
 
 .envelope-wrapper:hover {
@@ -184,6 +188,9 @@ body {
   width: 100%;
   height: auto;
   display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 30px #9b59b6cc) drop-shadow(0 0 60px #7d3c9880);
 }
 
 #envelopeFlap {
@@ -208,6 +215,7 @@ body {
   70%       { transform: scale(1); }
 }
 
+/* Carta que asoma del sobre */
 .letter-peek {
   position: absolute;
   bottom: 45%;
@@ -221,15 +229,15 @@ body {
   align-items: center;
   justify-content: center;
   opacity: 0;
+  z-index: 1; /* detrás del SVG (z-index:2) pero visible sobre el fondo */
   transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-  z-index: -1;
   box-shadow: 0 -4px 20px #9b59b660;
   border: 1px solid #c39bd360;
 }
 
 .envelope-open .letter-peek {
   opacity: 1;
-  transform: translateX(-50%) translateY(-55px);
+  transform: translateX(-50%) translateY(-65px);
 }
 
 .letter-peek-inner {
@@ -263,12 +271,12 @@ body {
   filter: drop-shadow(0 0 8px #9b59b6aa);
 }
 
-.fi1  { left: 8%;  top: 20%; animation-duration: 7s;  animation-delay: 0s;   }
-.fi2  { left: 88%; top: 15%; animation-duration: 9s;  animation-delay: 1s;   }
-.fi3  { left: 5%;  top: 70%; animation-duration: 8s;  animation-delay: 2s;   }
-.fi4  { left: 92%; top: 65%; animation-duration: 6s;  animation-delay: 0.5s; }
-.fi5  { left: 15%; top: 85%; animation-duration: 10s; animation-delay: 3s;   }
-.fi6  { left: 80%; top: 80%; animation-duration: 7s;  animation-delay: 1.5s; }
+.fi1 { left: 8%;  top: 20%; animation-duration: 7s;  animation-delay: 0s; }
+.fi2 { left: 88%; top: 15%; animation-duration: 9s;  animation-delay: 1s; }
+.fi3 { left: 5%;  top: 70%; animation-duration: 8s;  animation-delay: 2s; }
+.fi4 { left: 92%; top: 65%; animation-duration: 6s;  animation-delay: 0.5s; }
+.fi5 { left: 15%; top: 85%; animation-duration: 10s; animation-delay: 3s; }
+.fi6 { left: 80%; top: 80%; animation-duration: 7s;  animation-delay: 1.5s; }
 
 @keyframes floatAround {
   0%   { transform: translateY(0) rotate(0deg) scale(1); }
@@ -278,21 +286,9 @@ body {
   100% { transform: translateY(0) rotate(360deg) scale(1); }
 }
 
-/* ==============================
+/* ══════════════════════════
    PANTALLA CARTA
-   ============================== */
-
-/* ✅ CORREGIDO: la pantalla de carta hace scroll normalmente */
-#letterScreen {
-  position: relative;
-  min-height: 100svh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  justify-content: flex-start;   /* empieza desde arriba, no centrado */
-  padding-top: max(env(safe-area-inset-top), 20px);
-  padding-bottom: max(env(safe-area-inset-bottom), 80px);
-}
-
+══════════════════════════ */
 .letter-container {
   display: flex;
   flex-direction: column;
@@ -344,9 +340,9 @@ body {
   filter: drop-shadow(0 0 6px #9b59b6aa);
 }
 
-.letter-flower-tl { top: 8px;    left: 10px;  animation-delay: 0s;   }
+.letter-flower-tl { top: 8px;    left: 10px;  animation-delay: 0s; }
 .letter-flower-tr { top: 8px;    right: 10px; animation-delay: 1.5s; }
-.letter-flower-bl { bottom: 8px; left: 10px;  animation-delay: 3s;   }
+.letter-flower-bl { bottom: 8px; left: 10px;  animation-delay: 3s; }
 .letter-flower-br { bottom: 8px; right: 10px; animation-delay: 4.5s; }
 
 .letter-header {
@@ -427,7 +423,6 @@ body {
   box-shadow: 0 0 20px #9b59b660, 0 4px 15px rgba(0,0,0,0.3);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   letter-spacing: 0.04em;
-  /* ✅ margen inferior para no quedar tapado por el botón de música */
   margin-bottom: 20px;
 }
 
@@ -438,9 +433,9 @@ body {
 
 .btn-back:active { transform: scale(0.97); }
 
-/* ==============================
+/* ══════════════════════════
    CONTROL MÚSICA
-   ============================== */
+══════════════════════════ */
 .music-control {
   position: fixed;
   bottom: 22px;
@@ -467,10 +462,7 @@ body {
   box-shadow: 0 0 35px #9b59b6aa, 0 6px 20px rgba(0,0,0,0.5);
 }
 
-.music-icon {
-  font-size: 1.3rem;
-  line-height: 1;
-}
+.music-icon { font-size: 1.3rem; line-height: 1; }
 
 .music-waves {
   display: flex;
@@ -487,9 +479,9 @@ body {
   animation: waveBar 0.8s ease-in-out infinite;
 }
 
-.music-waves span:nth-child(1) { height: 5px;  animation-delay: 0s;    }
+.music-waves span:nth-child(1) { height: 5px;  animation-delay: 0s; }
 .music-waves span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
-.music-waves span:nth-child(3) { height: 7px;  animation-delay: 0.3s;  }
+.music-waves span:nth-child(3) { height: 7px;  animation-delay: 0.3s; }
 .music-waves span:nth-child(4) { height: 4px;  animation-delay: 0.45s; }
 
 @keyframes waveBar {
@@ -502,9 +494,9 @@ body {
   opacity: 0.4;
 }
 
-/* ==============================
-   ESTRELLAS FUGACES (CSS)
-   ============================== */
+/* ══════════════════════════
+   ESTRELLAS FUGACES
+══════════════════════════ */
 .shooting-star {
   position: fixed;
   width: 2px;
@@ -530,9 +522,9 @@ body {
   to   { transform: translate(300px, 180px) rotate(-30deg); opacity: 0; }
 }
 
-/* ==============================
+/* ══════════════════════════
    RESPONSIVE
-   ============================== */
+══════════════════════════ */
 @media (max-width: 480px) {
   .corner-flower { width: 80px; height: 80px; }
   .envelope-wrapper { width: 85vw; }
